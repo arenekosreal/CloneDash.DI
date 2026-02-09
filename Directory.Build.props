@@ -1,0 +1,23 @@
+<Project>
+  <!-- See https://aka.ms/dotnet/msbuild/customize for more details on customizing your build -->
+  <PropertyGroup>
+    <Version>0.1.0</Version>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <EnableConfigurationBindingGenerator>true</EnableConfigurationBindingGenerator>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <!-- Use prebuilt SDL3 native libraries. Set to false to use the library in your system. -->
+    <BundleNativeSdlLibs Condition="'$(BundleNativeSdlLibs)' == ''">true</BundleNativeSdlLibs>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="$(Configuration.Contains('Debug'))">
+    <IsAotCompatible Condition="'$(PublishAot)' != 'true'">true</IsAotCompatible>
+    <VerifyReferenceAotCompatibility Condition="'$(PublishAot)' != 'true'">true</VerifyReferenceAotCompatibility>
+    <DebugSymbols>true</DebugSymbols>
+    <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
+  </PropertyGroup>
+</Project>

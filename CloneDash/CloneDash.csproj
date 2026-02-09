@@ -1,0 +1,60 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <ApplicationId Condition="'$(Company)' != ''">io.github.$(Company).$(AssemblyName)</ApplicationId>
+    <ApplicationId Condition="'$(Company)' == ''">io.github.$(AssemblyName).$(AssemblyName)</ApplicationId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <AssemblyMetadata Include="ApplicationId">
+      <Value>$(ApplicationId)</Value>
+    </AssemblyMetadata>
+    <Content Include="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="$(ApplicationId).svg">
+      <CopyToOutputDirectory>Excluded</CopyToOutputDirectory>
+    </Content>
+    <Content Include="$(ApplicationId).metainfo.xml">
+      <CopyToOutputDirectory>Excluded</CopyToOutputDirectory>
+    </Content>
+    <Content Include="$(ApplicationId).desktop">
+      <CopyToOutputDirectory>Excluded</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CsToml.Extensions.Configuration" Version="1.8.0" />
+    <PackageReference Include="CsToml.Generator" Version="1.8.0">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Localization" Version="10.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CloneDash.Path\CloneDash.Path.csproj" />
+    <ProjectReference Include="..\CloneDash.Sdl\CloneDash.Sdl.csproj" />
+    <ProjectReference Include="..\CloneDash.Logging\CloneDash.Logging.csproj" />
+    <ProjectReference Include="..\CloneDash.Configuration\CloneDash.Configuration.csproj" />
+    <ProjectReference Include="..\CloneDash.Generator\CloneDash.Generator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+  </ItemGroup>
+
+  <!-- This target calls imagemagick to generate ico from svg, and set `ApplicationIcon` accordingly.  -->
+  <Target Name="Generate ico" BeforeTargets="PreBuildEvent"
+          Inputs="$(ApplicationId).svg" Outputs="$(IntermediateOutputPath)$(ApplicationId).ico">
+    <Exec Command="magick -background transparent -define 'icon:auto-resize=16,24,32,64' '$(ApplicationId).svg' '$(IntermediateOutputPath)$(ApplicationId).ico'" />
+    <CreateProperty Value="$(IntermediateOutputPath)$(ApplicationId).ico">
+      <Output TaskParameter="Value" PropertyName="ApplicationIcon" />
+    </CreateProperty>
+  </Target>
+
+</Project>
