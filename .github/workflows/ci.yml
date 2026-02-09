@@ -1,0 +1,74 @@
+on:
+  push:
+    branches:
+      - "main"
+  pull_request:
+    branches:
+      - "main"
+  workflow_dispatch:
+
+jobs:
+  build-and-test:
+    strategy:
+      matrix:
+        runs-on:
+          - ubuntu-latest
+          - windows-latest
+          - macos-latest
+        dotnet-version:
+          - "10.0"
+    name: Build and test project on ${{ matrix.runs-on }} for dotnet ${{ matrix.dotnet-version }}
+    runs-on: ${{ matrix.runs-on }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: ${{ matrix.dotnet-version }}
+      - name: Check format
+        run: dotnet format style --verify-no-changes
+      - name: Build project
+        run: dotnet publish --project CloneDash
+      - name: Test project
+        run: dotnet test
+      - name: Archive published binaries
+        run: |
+          7z -mcp=utf-8 a 'CloneDash-${{ github.ref_name }}-${{ runner.os }}-${{ runner.arch }}.zip' \
+            './CloneDash/bin/Release/net${{ matrix.dotnet-version }}/publish/'*
+      - name: Add extra files for Linux
+        if: runner.os == 'Linux'
+        run: |
+          7z -mcp=utf-8 a 'CloneDash-${{ github.ref_name }}-${{ runner.os }}-${{ runner.arch }}.zip' \
+            './CloneDash/io.github.CloneDash.CloneDash.desktop' \
+            './CloneDash/io.github.CloneDash.CloneDash.metainfo.xml' \
+            './CloneDash/io.github.CloneDash.CloneDash.svg'
+      - name: Upload artifact
+        if: github.ref_type == 'tag'
+        uses: actions/upload-artifact@v6
+        with:
+          name: CloneDash-${{ runner.os }}-${{ runner.arch }}
+          path: ./CloneDash-${{ github.ref_name }}-${{ runner.os }}-${{ runner.arch }}.zip
+          if-no-files-found: error
+  release:
+    if: github.ref_type == 'tag'
+    name: Collect artifacts and release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    needs: build-and-test
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v7
+        with:
+          pattern: CloneDash-*
+          merge-multiple: true
+      - name: List downloaded artifacts
+        run: ls -l CloneDash-*.zip
+      - name: Upload release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create --generate-notes --title 'Release for tag ${{ github.ref_name }}' \
+            '${{ github.ref_name }}' \
+            ./CloneDash-*.zip

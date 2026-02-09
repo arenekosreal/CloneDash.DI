@@ -1,0 +1,24 @@
+version: 2
+updates:
+  - package-ecosystem: "nuget"
+    directories:
+      - "**/*"
+    schedule:
+      interval: monthly
+    groups:
+      sdl:
+        patterns:
+          - "SDL3-CS*"
+      dependency-injection:
+        patterns:
+          - "Microsoft.Extensions*"
+      toml:
+        patterns:
+          - "CsToml*"
+      code-analysis:
+        patterns:
+          - "Microsoft.CodeAnalysis*"
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: monthly 
