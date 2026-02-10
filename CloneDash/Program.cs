@@ -70,7 +70,7 @@ await host.StartAsync();
 // [STAThread] attribute on Main
 if (OperatingSystem.IsWindows())
     Thread.CurrentThread.SetApartmentState(ApartmentState.STA);
-await host.Services.GetRequiredService<ISdl>().RunUntilQuitAsync(host.Services.GetRequiredService<IMainScene>());
+await host.Services.GetRequiredService<ISdl>().RunUntilQuitAsync();
 
 await host.StopAsync();
 await host.WaitForShutdownAsync();

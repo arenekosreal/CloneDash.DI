@@ -24,6 +24,7 @@ internal class Sdl : ISdl
 
     public IWindow Window { get; }
     public IRenderer Renderer { get; }
+    public IAsyncRenderable? CurrentRendering { get; set; }
 
     public Sdl(ILogger<Sdl> logger,
                IWritableOptions<SdlConfiguration> configuration,
@@ -59,7 +60,7 @@ internal class Sdl : ISdl
         Renderer.DrawColor = DefaultRendererColor;
     }
 
-    public async Task RunUntilQuitAsync(IAsyncRenderable? rootComponent = default, CancellationToken token = default)
+    public async Task RunUntilQuitAsync(CancellationToken token = default)
     {
         bool loop = true;
         while (!token.IsCancellationRequested && loop)
@@ -72,14 +73,14 @@ internal class Sdl : ISdl
                         loop = false;
                         break;
                     default:
-                        if (rootComponent is not null)
-                            await rootComponent.HandleEventAsync(e, token);
+                        if (CurrentRendering is not null)
+                            await CurrentRendering.HandleEventAsync(e, token);
                         break;
                 }
             }
             await Renderer.ClearAsync();
-            if (rootComponent is not null)
-                await rootComponent.RenderAsync(token);
+            if (CurrentRendering is not null)
+                await CurrentRendering.RenderAsync(token);
             Renderer.DrawColor = DefaultRendererColor;
             await Renderer.PresentAsync();
         }
