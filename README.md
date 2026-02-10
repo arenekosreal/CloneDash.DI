@@ -62,7 +62,7 @@ flowchart TD
     DOTNET --> VS
     VS -- Y --> IMPORT[Open CloneDash.slnx in Visual Studio]
     IMPORT --> RUNVS[Click Start button to run `CloneDash` project]
-    IDE -- N --> RUNCLI[Run `dotnet run` in `CloneDash` project directory]
+    VS -- N --> RUNCLI[Run `dotnet run` in `CloneDash` project directory]
 ```
 </details>
 
