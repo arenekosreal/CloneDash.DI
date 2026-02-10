@@ -1,7 +1,8 @@
+using System.Drawing;
+
 using CloneDash.Sdl;
 
 using Microsoft.Extensions.Logging;
-using System.Drawing;
 
 using SDL3;
 
