@@ -52,12 +52,12 @@ jobs:
         run: dotnet test
       - name: Archive published binaries
         run: |
-          7z -mcp=utf-8 a 'CloneDash-${{ github.ref_name }}-${{ runner.os }}-${{ runner.arch }}.zip' \
+          7z a 'CloneDash-${{ github.ref_name }}-${{ runner.os }}-${{ runner.arch }}.zip' \
             './CloneDash/bin/Release/net${{ matrix.dotnet-version }}/publish/'*
       - name: Add extra files for Linux
         if: runner.os == 'Linux'
         run: |
-          7z -mcp=utf-8 a 'CloneDash-${{ github.ref_name }}-${{ runner.os }}-${{ runner.arch }}.zip' \
+          7z a 'CloneDash-${{ github.ref_name }}-${{ runner.os }}-${{ runner.arch }}.zip' \
             './CloneDash/io.github.CloneDash.CloneDash.desktop' \
             './CloneDash/io.github.CloneDash.CloneDash.metainfo.xml' \
             './CloneDash/io.github.CloneDash.CloneDash.svg'
