@@ -55,7 +55,7 @@ flowchart TD
     CLONE[Clone this repository by using git]
     CLONE --> IM{Is ImageMagick command `magick` available?}
     IM -- Y --> SDK{Is dotnet 10.0 SDK available?}
-    IM -- N --> INSTALLIM[Install ImageMagick here: https://imagemagick.org/script/download.php]
+    IM -- N --> INSTALLIM[Install ImageMagick >= 7.0 here: https://imagemagick.org/script/download.php]
     INSTALLIM --> SDK
     SDK -- Y --> VS{Use Visual Studio?}
     SDK -- N --> DOTNET[Install dotnet sdk >= 10.0 here: https://dotnet.microsoft.com/en-us/download]

@@ -39,8 +39,13 @@ jobs:
       - name: Setup ImageMagick on Linux
         if: runner.os == 'Linux'
         run: |
-          sudo apt-get update -y
-          sudo apt-get install -y imagemagick
+          #sudo apt-get update -y
+          #sudo apt-get install -y imagemagick
+          # Ubuntu 24.04 does not have ImageMagick>=7.0
+          mkdir -p '${{ runner.temp }}/bin'
+          curl -L https://imagemagick.org/archive/binaries/magick -o '${{ runner.temp }}/bin/magick'
+          chmod +x '${{ runner.temp }}/bin/magick'
+          echo '${{ runner.temp }}/bin' >> "$GITHUB_PATH"
       - name: Build project
         run: dotnet publish CloneDash
       - name: Test project
