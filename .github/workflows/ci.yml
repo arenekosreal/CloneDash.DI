@@ -32,7 +32,11 @@ jobs:
           dotnet format style --verify-no-changes
       - name: Setup ImageMagick on Windows
         if: runner.os == 'Windows'
-        run: winget install ImageMagick.Q16-HDRI
+        run: |
+          winget install ImageMagick.Q16-HDRI \
+              --accept-package-agreements \
+              --accept-source-agreements \
+              --disable-interactivity 
       - name: Setup ImageMagick on macOS
         if: runner.os == 'macOS'
         run: brew install imagemagick
