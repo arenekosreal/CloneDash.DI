@@ -27,7 +27,20 @@ jobs:
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
       - name: Check format
-        run: dotnet format style --verify-no-changes
+        run: |
+          dotnet format whitespace --verify-no-changes
+          dotnet format style --verify-no-changes
+      - name: Setup ImageMagick on Windows
+        if: runner.os == 'Windows'
+        run: winget install ImageMagick.Q16-HDRI
+      - name: Setup ImageMagick on macOS
+        if: runner.os == 'macOS'
+        run: brew install imagemagick
+      - name: Setup ImageMagick on Linux
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y imagemagick
       - name: Build project
         run: dotnet publish CloneDash
       - name: Test project
