@@ -51,7 +51,7 @@
   <!-- This target calls imagemagick to generate ico from svg, and set `ApplicationIcon` accordingly.  -->
   <Target Name="Generate ico" BeforeTargets="PreBuildEvent"
           Inputs="$(ApplicationId).svg" Outputs="$(IntermediateOutputPath)$(ApplicationId).ico">
-    <Exec Command="magick -background transparent -define 'icon:auto-resize=16,24,32,64' '$(ApplicationId).svg' '$(IntermediateOutputPath)$(ApplicationId).ico'"
+    <Exec Command="magick -background transparent -define &quot;icon:auto-resize=16,24,32,64&quot; &quot;$(ApplicationId).svg&quot; &quot;$(IntermediateOutputPath)$(ApplicationId).ico&quot;"
           Outputs="$(IntermediateOutputPath)$(ApplicationId).ico">
       <Output TaskParameter="Outputs" PropertyName="ApplicationIcon" />
     </Exec>
