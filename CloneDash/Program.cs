@@ -11,6 +11,7 @@ using CsToml.Extensions.Configuration;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
 using PathLib;
 
@@ -70,6 +71,12 @@ await host.StartAsync();
 // [STAThread] attribute on Main
 if (OperatingSystem.IsWindows())
     Thread.CurrentThread.SetApartmentState(ApartmentState.STA);
+ISdl sdl = host.Services.GetRequiredService<ISdl>();
+if (sdl.CurrentRendering is null)
+    sdl.CurrentRendering = host.Services.GetRequiredService<IMainScene>();
+else
+    host.Services.GetRequiredService<ILogger>()
+        .LogWarning("SDL has been configured to render {0} before now.", sdl.CurrentRendering);
 await host.Services.GetRequiredService<ISdl>().RunUntilQuitAsync();
 
 await host.StopAsync();

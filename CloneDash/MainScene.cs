@@ -12,12 +12,8 @@ internal class MainScene : IMainScene
     private readonly ISdl Sdl;
     private readonly ILogger<MainScene> Logger;
 
-    public MainScene(IServiceProvider serviceProvider, ISdl sdl, ILogger<MainScene> logger)
-    {
+    public MainScene(IServiceProvider serviceProvider, ISdl sdl, ILogger<MainScene> logger) =>
         (ServiceProvider, Sdl, Logger) = (serviceProvider, sdl, logger);
-        if (Sdl.CurrentRendering is null)
-            Sdl.CurrentRendering = this;
-    }
 
     public async ValueTask RenderAsync(CancellationToken token)
     {
