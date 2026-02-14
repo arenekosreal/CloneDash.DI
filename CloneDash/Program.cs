@@ -77,7 +77,7 @@ if (sdl.CurrentRendering is null)
 else
     host.Services.GetRequiredService<ILogger>()
         .LogWarning("SDL has been configured to render {0} before now.", sdl.CurrentRendering);
-await host.Services.GetRequiredService<ISdl>().RunUntilQuitAsync();
+await sdl.RunUntilQuitAsync();
 
 await host.StopAsync();
 await host.WaitForShutdownAsync();
