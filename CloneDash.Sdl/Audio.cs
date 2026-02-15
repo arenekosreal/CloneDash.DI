@@ -10,6 +10,13 @@ internal readonly struct Audio : IAudio
 
     public uint Length { get; internal init; }
 
+    public ValueTask<IAudioStream> CreateAudioStreamAsync(in SDL.AudioSpec outputSpec)
+    {
+        SDL.AudioSpec inputSpec = AudioSpec;
+        return ValueTask.FromResult<IAudioStream>(
+            new AudioStream() { SdlPtr = SDL.CreateAudioStream(in inputSpec, in outputSpec) });
+    }
+
     public ValueTask DisposeAsync()
     {
         SDL.Free(SdlPtr);
