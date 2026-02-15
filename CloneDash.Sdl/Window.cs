@@ -7,7 +7,7 @@ namespace CloneDash.Sdl;
 
 internal readonly struct Window : IWindow
 {
-    public IntPtr SdlPtr { get; internal init; }
+    public IntPtr SdlPtr { get; }
 
     public float DisplayScale { get => SDL.GetWindowDisplayScale(SdlPtr); }
 
@@ -20,7 +20,7 @@ internal readonly struct Window : IWindow
         get => SDL.GetWindowParent(SdlPtr) switch
         {
             0 => null,
-            IntPtr value => new Window() { SdlPtr = value }
+            IntPtr value => new Window(value)
         };
         set => SDL.SetWindowParent(SdlPtr, value?.SdlPtr ?? IntPtr.Zero);
     }
@@ -31,7 +31,7 @@ internal readonly struct Window : IWindow
         set => SDL.SetWindowPosition(SdlPtr, Convert.ToInt32(value.X), Convert.ToInt32(value.Y));
     }
 
-    public IRenderer Renderer { get => new Renderer() { SdlPtr = SDL.GetRenderer(SdlPtr) }; }
+    public IRenderer Renderer { get => new Renderer(SDL.GetRenderer(SdlPtr)); }
 
     public Rectangle SafeArea
     {
@@ -44,9 +44,14 @@ internal readonly struct Window : IWindow
         set => SDL.SetWindowSize(SdlPtr, value.Width, value.Height);
     }
 
-    public ISurface Surface { get => new Surface() { SdlPtr = SDL.GetWindowSurface(SdlPtr) }; }
+    public ISurface Surface { get => new Surface(SDL.GetWindowSurface(SdlPtr)); }
 
     public string Title { get => SDL.GetWindowTitle(SdlPtr); set => SDL.SetWindowTitle(SdlPtr, value); }
+
+    public Window(string title, int width, int height, SDL.WindowFlags flags) =>
+        SdlPtr = SDL.CreateWindow(title, width, height, flags);
+
+    internal Window(IntPtr existing) => SdlPtr = existing;
 
     public ValueTask<bool> ShowAsync() => ValueTask.FromResult(SDL.ShowWindow(SdlPtr));
 

@@ -4,7 +4,9 @@ namespace CloneDash.Sdl;
 
 internal readonly struct Palette : IPalette
 {
-    public IntPtr SdlPtr { get; internal init; }
+    public IntPtr SdlPtr { get; }
+
+    internal Palette(IntPtr existing) => SdlPtr = existing;
 
     public ValueTask DisposeAsync()
     {

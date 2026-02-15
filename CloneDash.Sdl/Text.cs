@@ -8,7 +8,7 @@ namespace CloneDash.Sdl;
 
 internal readonly struct Text : IText
 {
-    public IntPtr SdlPtr { get; internal init; }
+    public IntPtr SdlPtr { get; }
 
     public string String
     {
@@ -25,13 +25,13 @@ internal readonly struct Text : IText
 
     public ITextEngine TextEngine
     {
-        get => new RendererTextEngine() { SdlPtr = TTF.GetTextEngine(SdlPtr) };
+        get => new RendererTextEngine(TTF.GetTextEngine(SdlPtr));
         set => TTF.SetTextEngine(SdlPtr, value.SdlPtr);
     }
 
     public IFont Font
     {
-        get => new Font() { SdlPtr = TTF.GetTextFont(SdlPtr), Path = null };
+        get => new Font(null, TTF.GetTextFont(SdlPtr));
         set => TTF.SetTextFont(SdlPtr, value.SdlPtr);
     }
 
@@ -58,6 +58,8 @@ internal readonly struct Text : IText
     {
         SdlPtr = TTF.CreateText(textEngine?.SdlPtr ?? IntPtr.Zero, font.SdlPtr, text, (uint)Encoding.UTF8.GetByteCount(text));
     }
+
+    internal Text(IntPtr existing) => SdlPtr = existing;
 
     public ValueTask DisposeAsync()
     {

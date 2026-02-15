@@ -4,7 +4,7 @@ namespace CloneDash.Sdl;
 
 internal readonly struct AudioDevice : IAudioDevice
 {
-    public uint SdlPtr { get; internal init; }
+    public uint SdlPtr { get; }
 
     public float Gain { get => SDL.GetAudioDeviceGain(SdlPtr); set => SDL.SetAudioDeviceGain(SdlPtr, value); }
 
@@ -15,6 +15,9 @@ internal readonly struct AudioDevice : IAudioDevice
         get => SDL.AudioDevicePaused(SdlPtr);
         set => _ = value ? SDL.PauseAudioDevice(SdlPtr) : SDL.ResumeAudioDevice(SdlPtr);
     }
+
+    public AudioDevice(uint deviceId = SDL.AudioDeviceDefaultPlayback, SDL.AudioSpec outputSpec = default) =>
+        SdlPtr = SDL.OpenAudioDevice(deviceId, outputSpec);
 
     public ValueTask<bool> BindStreamsAsync(params IEnumerable<IAudioStream> streams)
     {

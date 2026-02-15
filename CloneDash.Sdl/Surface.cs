@@ -7,13 +7,15 @@ namespace CloneDash.Sdl;
 
 internal readonly struct Surface : ISurface
 {
-    public IntPtr SdlPtr { get; internal init; }
+    public IntPtr SdlPtr { get; }
 
     public IPalette Palette
     {
-        get => new Palette() { SdlPtr = SDL.GetSurfacePalette(SdlPtr) };
+        get => new Palette(SDL.GetSurfacePalette(SdlPtr));
         set => SDL.SetSurfacePalette(SdlPtr, value.SdlPtr);
     }
+
+    internal Surface(IntPtr existing) => SdlPtr = existing;
 
     public ValueTask<bool> BlitAsync(ISurface to, Rectangle? source = null, Rectangle? destination = null)
     {
@@ -40,10 +42,10 @@ internal readonly struct Surface : ISurface
         ValueTask.FromResult(SDL.ClearSurface(SdlPtr, color.R, color.G, color.B, color.A));
 
     public ValueTask<ISurface> Convert(SDL.PixelFormat format) =>
-        ValueTask.FromResult<ISurface>(new Surface() { SdlPtr = SDL.ConvertSurface(SdlPtr, format) });
+        ValueTask.FromResult<ISurface>(new Surface(SDL.ConvertSurface(SdlPtr, format)));
 
     public ValueTask<ISurface> Rotate(float degree) =>
-        ValueTask.FromResult<ISurface>(new Surface() { SdlPtr = SDL.RotateSurface(SdlPtr, degree) });
+        ValueTask.FromResult<ISurface>(new Surface(SDL.RotateSurface(SdlPtr, degree)));
 
     public ValueTask<bool> Write(Vector2 position, Color color) =>
         ValueTask.FromResult(SDL.WriteSurfacePixel(SdlPtr, System.Convert.ToInt32(position.X), System.Convert.ToInt32(position.Y), color.R, color.G, color.B, color.A));

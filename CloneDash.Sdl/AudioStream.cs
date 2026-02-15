@@ -4,7 +4,7 @@ namespace CloneDash.Sdl;
 
 internal readonly struct AudioStream : IAudioStream
 {
-    public IntPtr SdlPtr { get; internal init; }
+    public IntPtr SdlPtr { get; }
 
     public float Gain { get => SDL.GetAudioStreamGain(SdlPtr); set => SDL.SetAudioStreamGain(SdlPtr, value); }
 
@@ -15,6 +15,8 @@ internal readonly struct AudioStream : IAudioStream
     }
 
     public bool Locked { set => _ = value ? SDL.LockAudioStream(SdlPtr) : SDL.UnlockAudioStream(SdlPtr); }
+
+    internal AudioStream(IntPtr existing) => SdlPtr = existing;
 
     public ValueTask<bool> ClearAsync() => ValueTask.FromResult(SDL.ClearAudioStream(SdlPtr));
 

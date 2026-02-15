@@ -6,9 +6,9 @@ namespace CloneDash.Sdl;
 
 internal readonly struct Font : IFont
 {
-    public IntPtr SdlPtr { get; internal init; }
+    public IntPtr SdlPtr { get; }
 
-    public IPath? Path { get; internal init; }
+    public IPath? Path { get; }
 
     public TTF.Direction Direction { get => TTF.GetFontDirection(SdlPtr); set => TTF.SetFontDirection(SdlPtr, value); }
 
@@ -24,6 +24,9 @@ internal readonly struct Font : IFont
 
     public Font(IPath fontPath, int fontSize) =>
         (SdlPtr, Path) = (TTF.OpenFont(fontPath.ToString()!, fontSize), fontPath);
+
+    internal Font(IPath? fontPath, IntPtr existing) =>
+        (SdlPtr, Path) = (existing, fontPath);
 
     public ValueTask DisposeAsync()
     {

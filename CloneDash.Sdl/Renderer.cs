@@ -7,7 +7,7 @@ namespace CloneDash.Sdl;
 
 internal readonly struct Renderer : IRenderer
 {
-    public IntPtr SdlPtr { get; internal init; }
+    public IntPtr SdlPtr { get; }
 
     public string Name { get => SDL.GetRendererName(SdlPtr) ?? string.Empty; }
 
@@ -27,13 +27,18 @@ internal readonly struct Renderer : IRenderer
         get => SDL.GetRenderSafeArea(SdlPtr, out SDL.Rect rect) ? new(rect.X, rect.Y, rect.W, rect.H) : default;
     }
 
-    public IWindow Window { get => new Window() { SdlPtr = SDL.GetRenderWindow(SdlPtr) }; }
+    public IWindow Window { get => new Window(SDL.GetRenderWindow(SdlPtr)); }
 
     public ITexture Target
     {
-        get => new Texture() { SdlPtr = SDL.GetRenderTarget(SdlPtr) };
+        get => new Texture(SDL.GetRenderTarget(SdlPtr));
         set => SDL.SetRenderTarget(SdlPtr, value.SdlPtr);
     }
+
+    public Renderer(IWindow window, string? name = null) =>
+        SdlPtr = SDL.CreateRenderer(window.SdlPtr, name);
+
+    internal Renderer(IntPtr existing) => SdlPtr = existing;
 
     public ValueTask<bool> ClearAsync() => ValueTask.FromResult(SDL.RenderClear(SdlPtr));
 

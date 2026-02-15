@@ -4,13 +4,15 @@ namespace CloneDash.Sdl;
 
 internal readonly struct Texture : ITexture
 {
-    public IntPtr SdlPtr { get; internal init; }
+    public IntPtr SdlPtr { get; }
 
     public IPalette Palette
     {
-        get => new Palette() { SdlPtr = SDL.GetTexturePalette(SdlPtr) };
+        get => new Palette(SDL.GetTexturePalette(SdlPtr));
         set => SDL.SetTexturePalette(SdlPtr, value.SdlPtr);
     }
+
+    internal Texture(IntPtr existing) => SdlPtr = existing;
 
     public ValueTask DisposeAsync()
     {

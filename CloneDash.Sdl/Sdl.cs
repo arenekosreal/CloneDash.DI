@@ -18,7 +18,6 @@ internal class Sdl : ISdl
     private readonly IPathProvider PathProvider;
     private readonly IAudioDevice AudioDevice;
     private readonly List<Font> Fonts = new();
-    private readonly SDL.AudioSpec AudioSpec = default;
     private readonly Color DefaultRendererColor = Color.Black;
 
     public IWindow Window { get; }
@@ -47,16 +46,11 @@ internal class Sdl : ISdl
         Logger.LogDebug($"Setting SDL metadata: appname={appName} appversion={appVersion} appidentifier={appId}");
         SDL.SetAppMetadata(appName, appVersion, appId);
         SdlConfiguration cfg = Configuration.Value;
-        if (!SDL.CreateWindowAndRenderer(appName, cfg.Width, cfg.Height, cfg.SdlFlags, out IntPtr windowPtr, out IntPtr rendererPtr))
-        {
-            Logger.LogError("Create window and renderer failed: {0}", SDL.GetError());
-            throw new InvalidOperationException("Failed to create window and renderer.");
-        }
-        Window = new Window() { SdlPtr = windowPtr };
-        Renderer = new Renderer() { SdlPtr = rendererPtr };
+        Window = new Window(appName, cfg.Width, cfg.Height, cfg.SdlFlags);
+        Renderer = new Renderer(Window);
         TextEngine = new RendererTextEngine(Renderer);
         Logger.LogDebug("Opening audio device...");
-        AudioDevice = new AudioDevice() { SdlPtr = SDL.OpenAudioDevice(SDL.AudioDeviceDefaultPlayback, in AudioSpec) };
+        AudioDevice = new AudioDevice();
         Renderer.DrawColor = DefaultRendererColor;
     }
 
@@ -139,8 +133,6 @@ internal class Sdl : ISdl
         return ValueTask.FromResult<IFont>(newFont);
     }
 
-    public ValueTask<IAudio> GetAudioAsync(IPath audioPath)
-    {
-        throw new NotImplementedException();
-    }
+    public ValueTask<IAudio> GetAudioAsync(IPath audioPath) =>
+        ValueTask.FromResult<IAudio>(new WAVAudio(audioPath));
 }

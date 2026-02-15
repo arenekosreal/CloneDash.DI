@@ -10,7 +10,4 @@ public interface IAudio : ISdlWrapper<IntPtr>
 
     /// <value>The buffer length returned by load function.</value>
     public uint Length { get; }
-
-    /// <summary>Get the <see cref="IAudioStream" /></summary>
-    public ValueTask<IAudioStream> CreateAudioStreamAsync(in SDL.AudioSpec outputSpec);
 }
