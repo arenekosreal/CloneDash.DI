@@ -31,9 +31,7 @@ jobs:
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
       - name: Check format
-        run: |
-          dotnet format whitespace --verify-no-changes
-          dotnet format style --verify-no-changes
+        run: dotnet format --verify-no-changes
       - name: Setup ImageMagick on Windows
         if: runner.os == 'Windows'
         run: |
