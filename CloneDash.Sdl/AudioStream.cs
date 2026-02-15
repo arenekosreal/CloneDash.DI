@@ -32,11 +32,10 @@ internal readonly struct AudioStream : IAudioStream
         return ValueTask.CompletedTask;
     }
 
-    public ValueTask<bool> PutAsync(IAudio audio)
-    {
-        Locked = true;
-        bool ret = SDL.PutAudioStreamDataNoCopy(SdlPtr, audio.SdlPtr, Convert.ToInt32(audio.Length), null, IntPtr.Zero);
-        Locked = false;
-        return ValueTask.FromResult(ret);
-    }
+    public ValueTask<bool> PutAsync(IAudio audio) =>
+        ValueTask.FromResult(SDL.PutAudioStreamDataNoCopy(SdlPtr,
+                                                          audio.SdlPtr,
+                                                          Convert.ToInt32(audio.Length),
+                                                          null,
+                                                          IntPtr.Zero));
 }
