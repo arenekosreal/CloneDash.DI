@@ -47,8 +47,6 @@ internal class Sdl : ISdl
         Logger.LogDebug($"Setting SDL metadata: appname={appName} appversion={appVersion} appidentifier={appId}");
         SDL.SetAppMetadata(appName, appVersion, appId);
         SdlConfiguration cfg = Configuration.Value;
-        Logger.LogDebug("Opening audio device...");
-        AudioDevice = new AudioDevice() { SdlPtr = SDL.OpenAudioDevice(SDL.AudioDeviceDefaultPlayback, in AudioSpec) };
         if (!SDL.CreateWindowAndRenderer(appName, cfg.Width, cfg.Height, cfg.SdlFlags, out IntPtr windowPtr, out IntPtr rendererPtr))
         {
             Logger.LogError("Create window and renderer failed: {0}", SDL.GetError());
@@ -57,6 +55,8 @@ internal class Sdl : ISdl
         Window = new Window() { SdlPtr = windowPtr };
         Renderer = new Renderer() { SdlPtr = rendererPtr };
         TextEngine = new RendererTextEngine(Renderer);
+        Logger.LogDebug("Opening audio device...");
+        AudioDevice = new AudioDevice() { SdlPtr = SDL.OpenAudioDevice(SDL.AudioDeviceDefaultPlayback, in AudioSpec) };
         Renderer.DrawColor = DefaultRendererColor;
     }
 
