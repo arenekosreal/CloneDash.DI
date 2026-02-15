@@ -13,6 +13,9 @@ public interface ISdl : IAsyncDisposable
     /// <value>The renderer created by SDL.</value>
     public IRenderer Renderer { get; }
 
+    /// <value>The text engine created by SDL.</value>
+    public ITextEngine TextEngine { get; }
+
     /// <value>The current rendering object.</value>
     public IAsyncRenderable? CurrentRendering { get; set; }
 

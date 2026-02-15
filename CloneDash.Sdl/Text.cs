@@ -8,7 +8,7 @@ namespace CloneDash.Sdl;
 
 internal readonly struct Text : IText
 {
-    public IntPtr SdlPtr { get; }
+    public IntPtr SdlPtr { get; internal init; }
 
     public string String
     {
