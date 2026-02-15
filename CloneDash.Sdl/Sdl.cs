@@ -79,9 +79,9 @@ internal class Sdl : ISdl
                 }
             }
             await Renderer.ClearAsync();
+            Renderer.DrawColor = DefaultRendererColor;
             if (CurrentRendering is not null)
                 await CurrentRendering.RenderAsync(token);
-            Renderer.DrawColor = DefaultRendererColor;
             await Renderer.PresentAsync();
         }
     }
