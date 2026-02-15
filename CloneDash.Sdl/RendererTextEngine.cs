@@ -12,10 +12,13 @@ internal readonly struct RendererTextEngine : ITextEngine
 
     public ValueTask<IText> CreateTextAsync(IFont font, string text) =>
         ValueTask.FromResult<IText>(
-            new Text() { SdlPtr = TTF.CreateText(SdlPtr,
-                                                 font.SdlPtr,
-                                                 text,
-                                                 Convert.ToUInt32(Encoding.UTF8.GetByteCount(text))) });
+            new Text()
+            {
+                SdlPtr = TTF.CreateText(SdlPtr,
+                                        font.SdlPtr,
+                                        text,
+                                        Convert.ToUInt32(Encoding.UTF8.GetByteCount(text)))
+            });
 
     public ValueTask DisposeAsync()
     {
