@@ -16,7 +16,7 @@ using Microsoft.Extensions.Logging;
 using PathLib;
 
 string assemblyTitle = Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyTitleAttribute>()!.Title;
-string assemblyVersion = Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>()!.InformationalVersion;
+string assemblyVersion = Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyFileVersionAttribute>()!.Version;
 string appId = Assembly.GetExecutingAssembly().GetCustomAttributes<AssemblyMetadataAttribute>().First(attr => attr.Key == "ApplicationId").Value!;
 
 HostApplicationBuilder builder = Host.CreateApplicationBuilder(args);
