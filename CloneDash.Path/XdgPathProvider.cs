@@ -97,20 +97,6 @@ public class XdgPathProvider : IPathProvider
     public IPath GetWritableStatePath(string name) => XdgStateHome / AppId / name;
 
     /// <inheritdoc />
-    public IPath? GetSystemFontPath(string fontFamilyName, string? variant = null)
-    {
-        IPath[] possiblePaths = new[]
-        {
-            // $HOME/.fonts
-            new PosixPath(Environment.GetFolderPath(Environment.SpecialFolder.Fonts)),
-        }.Append(XdgDataHome / "fonts").Concat(XdgDataDirs.Select(d => d / "fonts")).ToArray();
-        string fontFullName = fontFamilyName + variant is not null ? $"-{variant}" : string.Empty;
-        string? fontFullPath = possiblePaths.SelectMany(d => d.DirectoryInfo.EnumerateFiles(fontFullName, SearchOption.AllDirectories))
-                                            .FirstOrDefault(f => f.Exists)?.FullName;
-        return fontFullPath is not null ? new PosixPath(fontFullPath) : null;
-    }
-
-    /// <inheritdoc />
     public IEnumerable<IPath> EnumerateSystemFonts()
     {
         IPath[] possibleFontsDirs = new[]
