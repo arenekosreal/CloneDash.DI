@@ -14,7 +14,17 @@ internal readonly struct AudioStream : IAudioStream
         set => _ = value ? SDL.PauseAudioStreamDevice(SdlPtr) : SDL.ResumeAudioStreamDevice(SdlPtr);
     }
 
+    public int Queued { get => SDL.GetAudioStreamQueued(SdlPtr); }
+
     public bool Locked { set => _ = value ? SDL.LockAudioStream(SdlPtr) : SDL.UnlockAudioStream(SdlPtr); }
+
+    public AudioStream(IAudioDevice device, SDL.AudioSpec? inputSpec = null)
+    {
+        if (inputSpec is null)
+            SdlPtr = SDL.OpenAudioDeviceStream(device.SdlPtr, IntPtr.Zero, null, IntPtr.Zero);
+        else
+            SdlPtr = SDL.OpenAudioDeviceStream(device.SdlPtr, inputSpec.Value, null, IntPtr.Zero);
+    }
 
     internal AudioStream(IntPtr existing) => SdlPtr = existing;
 
