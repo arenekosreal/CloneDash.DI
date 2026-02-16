@@ -2,6 +2,7 @@ using System.Drawing;
 using System.Numerics;
 
 using PathLib;
+
 using SDL3;
 
 namespace CloneDash.Sdl;
@@ -16,7 +17,7 @@ internal readonly struct Surface : ISurface
         set => SDL.SetSurfacePalette(SdlPtr, value.SdlPtr);
     }
 
-    public static Surface FromBMP(IPath bmpFile) => new (SDL.LoadBMP(bmpFile.ToString()!));
+    public static Surface FromBMP(IPath bmpFile) => new(SDL.LoadBMP(bmpFile.ToString()!));
 
     internal Surface(IntPtr existing) => SdlPtr = existing;
 
