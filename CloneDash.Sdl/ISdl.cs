@@ -33,6 +33,9 @@ public interface ISdl : IAsyncDisposable
     /// <summary>Get <see cref="IFont" /> which file path is  <paramref name="fontPath" /> and matches all other arguments.</summary>
     public ValueTask<IFont> GetFontAsync(IPath fontPath, int fontSize, TTF.FontStyleFlags fontStyle, TTF.HintingFlags fontHinting);
 
-    /// <summary>Get <see cref="IAudio" /> from <paramref name="audioPath" />.</summary>
-    public ValueTask<IAudio> GetAudioAsync(IPath audioPath);
+    /// <summary>Get <see cref="IAudio" /> from <paramref name="wavFile" />.</summary>
+    public ValueTask<IAudio> GetWAVAudioAsync(IPath wavFile);
+
+    /// <summary>Get <see cref="ISurface" /> from <paramref name="bmpFile" />.</summary>
+    public ValueTask<ISurface> GetBMPSurfaceAsync(IPath bmpFile);
 }

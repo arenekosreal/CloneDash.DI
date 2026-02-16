@@ -133,6 +133,9 @@ internal class Sdl : ISdl
         return ValueTask.FromResult<IFont>(newFont);
     }
 
-    public ValueTask<IAudio> GetAudioAsync(IPath audioPath) =>
-        ValueTask.FromResult<IAudio>(new WAVAudio(audioPath));
+    public ValueTask<IAudio> GetWAVAudioAsync(IPath wavFile) =>
+        ValueTask.FromResult<IAudio>(Audio.FromWAV(wavFile));
+
+    public ValueTask<ISurface> GetBMPSurfaceAsync(IPath bmpFile) =>
+        ValueTask.FromResult<ISurface>(Surface.FromBMP(bmpFile));
 }
