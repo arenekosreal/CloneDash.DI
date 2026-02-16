@@ -1,5 +1,6 @@
-using SDL3;
 using PathLib;
+
+using SDL3;
 
 namespace CloneDash.Sdl;
 
