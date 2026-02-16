@@ -9,6 +9,9 @@ public interface IAudioStream : ISdlWrapper<IntPtr>
     /// <value>If the stream's device is paused.</value>
     public bool Paused { get; set; }
 
+    /// <value>How many bytes are queued in the stream.</value>
+    public int Queued { get; }
+
     /// <value>If the stream is locked.</value>
     public bool Locked { set; }
 
