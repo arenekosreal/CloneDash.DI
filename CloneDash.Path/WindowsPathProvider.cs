@@ -64,15 +64,13 @@ public class WindowsPathProvider : IPathProvider
             ApplicationData / "Microsoft" / "Windows" / "Fonts",
             LocalApplicationData / "Microsoft" / "Windows" / "Fonts,"
         };
-        foreach (IPath fontDir in possibleFontsDirs)
+        return possibleFontsDirs.SelectMany(dir =>
         {
-            if (fontDir.IsDir())
-            {
-                foreach (IPath font in fontDir.ListDir("*.ttf", SearchOption.AllDirectories))
-                {
-                    yield return font;
-                }
-            }
-        }
+            if (dir.IsDir())
+                return dir.ListDir("*.ttf", SearchOption.AllDirectories)
+                          .TakeWhile(f => !f.IsDir());
+            else
+                return new IPath[0];
+        });
     }
 }

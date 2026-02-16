@@ -64,31 +64,15 @@ public class XdgPathProvider : IPathProvider
     public IPath GetWritableConfigPath(string name) => XdgConfigHome / AppId / name;
 
     /// <inheritdoc />
-    public IPath? GetReadableConfigPath(string name)
-    {
-        foreach (IPath configHome in XdgConfigDirs.Prepend(XdgConfigHome))
-        {
-            IPath configPath = configHome / AppId / name;
-            if (configPath.Exists())
-                return configPath;
-        }
-        return null;
-    }
+    public IPath? GetReadableConfigPath(string name) => XdgConfigDirs.Prepend(XdgConfigHome)
+        .Select(h => h / AppId / name).FirstOrDefault(p => p.Exists());
 
     /// <inheritdoc />
     public IPath GetWritableDataPath(string name) => XdgDataHome / AppId / name;
 
     /// <inheritdoc />
-    public IPath? GetReadableDataPath(string name)
-    {
-        foreach (IPath dataHome in XdgDataDirs.Prepend(XdgDataHome))
-        {
-            IPath dataPath = dataHome / AppId / name;
-            if (dataPath.Exists())
-                return dataPath;
-        }
-        return null;
-    }
+    public IPath? GetReadableDataPath(string name) => XdgDataDirs.Prepend(XdgDataHome)
+        .Select(h => h / AppId / name).FirstOrDefault(p => p.Exists());
 
     /// <inheritdoc />
     public IPath GetWritableCachePath(string name) => XdgCacheHome / AppId / name;
@@ -105,15 +89,13 @@ public class XdgPathProvider : IPathProvider
             new PosixPath(Environment.GetFolderPath(Environment.SpecialFolder.Fonts)),
             XdgDataHome / "fonts"
         }.Concat(XdgDataDirs.Select(d => d / "fonts")).ToArray();
-        foreach (IPath fontDir in possibleFontsDirs)
+        return possibleFontsDirs.SelectMany(dir =>
         {
-            if (fontDir.IsDir())
-            {
-                foreach (IPath font in fontDir.ListDir("*.ttf", SearchOption.AllDirectories))
-                {
-                    yield return font;
-                }
-            }
-        }
+            if (dir.IsDir())
+                return dir.ListDir("*.ttf", SearchOption.AllDirectories)
+                          .TakeWhile(f => !f.IsDir());
+            else
+                return new IPath[0];
+        });
     }
 }
