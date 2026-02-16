@@ -16,13 +16,13 @@ internal class Sdl : ISdl
     private readonly ILogger<Sdl> Logger;
     private readonly IWritableOptions<SdlConfiguration> Configuration;
     private readonly IPathProvider PathProvider;
-    private readonly IAudioDevice AudioDevice;
     private readonly List<Font> Fonts = new();
     private readonly Color DefaultRendererColor = Color.Black;
 
     public IWindow Window { get; }
     public IRenderer Renderer { get; }
     public ITextEngine TextEngine { get; }
+    public IAudioDevice AudioDevice { get; }
     public IAsyncRenderable? CurrentRendering { get; set; }
 
     public Sdl(ILogger<Sdl> logger,

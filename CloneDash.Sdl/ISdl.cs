@@ -16,6 +16,9 @@ public interface ISdl : IAsyncDisposable
     /// <value>The text engine created by SDL.</value>
     public ITextEngine TextEngine { get; }
 
+    /// <value>The audio device created by SDL.</value>
+    public IAudioDevice AudioDevice { get; }
+
     /// <value>The current rendering object.</value>
     public IAsyncRenderable? CurrentRendering { get; set; }
 
