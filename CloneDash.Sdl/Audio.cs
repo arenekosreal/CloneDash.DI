@@ -22,9 +22,5 @@ internal readonly struct Audio : IAudio
     internal Audio(IntPtr existing, SDL.AudioSpec audioSpec, uint length) =>
         (SdlPtr, AudioSpec, Length) = (existing, audioSpec, length);
 
-    public ValueTask DisposeAsync()
-    {
-        SDL.Free(SdlPtr);
-        return ValueTask.CompletedTask;
-    }
+    public void Dispose() => SDL.Free(SdlPtr);
 }

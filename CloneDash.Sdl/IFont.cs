@@ -30,8 +30,8 @@ public interface IFont : ISdlWrapper<IntPtr>
     public TTF.HintingFlags Hinting { get; set; }
 
     /// <summary>Add fonts to fallback list.</summary>
-    public ValueTask<bool> AddFallbackFontAsync(IFont font);
+    public bool AddFallbackFont(IFont font);
 
     /// <summary>Remove fonts from fallback list.</summary>
-    public ValueTask RemoveFallbackFontAsync(IFont font);
+    public void RemoveFallbackFont(IFont font);
 }

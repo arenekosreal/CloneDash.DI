@@ -36,8 +36,8 @@ public interface IText : ISdlWrapper<IntPtr>
     public int WrapWidth { get; set; }
 
     /// <summary>Render the text at <paramref name="position" />.</summary>
-    public ValueTask<bool> RenderAsync(Vector2 position);
+    public bool Render(Vector2 position);
 
     /// <summary>Render the text at <paramref name="position" /> on <paramref name="surface" />.</summary>
-    public ValueTask<bool> RenderAsync(Vector2 position, ISurface surface);
+    public bool Render(Vector2 position, ISurface surface);
 }

@@ -28,26 +28,16 @@ internal readonly struct AudioStream : IAudioStream
 
     internal AudioStream(IntPtr existing) => SdlPtr = existing;
 
-    public ValueTask<bool> ClearAsync() => ValueTask.FromResult(SDL.ClearAudioStream(SdlPtr));
+    public bool Clear() => SDL.ClearAudioStream(SdlPtr);
 
-    public ValueTask<bool> FlushAsync() => ValueTask.FromResult(SDL.FlushAudioStream(SdlPtr));
+    public bool Flush() => SDL.FlushAudioStream(SdlPtr);
 
-    public ValueTask DisposeAsync()
-    {
-        SDL.DestroyAudioStream(SdlPtr);
-        return ValueTask.CompletedTask;
-    }
+    public void Dispose() => SDL.DestroyAudioStream(SdlPtr);
 
-    public ValueTask UnbindAsync()
-    {
-        SDL.UnbindAudioStream(SdlPtr);
-        return ValueTask.CompletedTask;
-    }
+    public void Unbind() => SDL.UnbindAudioStream(SdlPtr);
 
-    public ValueTask<bool> PutAsync(IAudio audio) =>
-        ValueTask.FromResult(SDL.PutAudioStreamDataNoCopy(SdlPtr,
-                                                          audio.SdlPtr,
-                                                          Convert.ToInt32(audio.Length),
-                                                          null,
-                                                          IntPtr.Zero));
+    public bool Put(IAudio audio) =>
+        SDL.PutAudioStreamDataNoCopy(SdlPtr, audio.SdlPtr,
+                                     Convert.ToInt32(audio.Length),
+                                     null, IntPtr.Zero);
 }

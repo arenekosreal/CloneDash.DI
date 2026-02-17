@@ -14,9 +14,5 @@ internal readonly struct Texture : ITexture
 
     internal Texture(IntPtr existing) => SdlPtr = existing;
 
-    public ValueTask DisposeAsync()
-    {
-        SDL.DestroyTexture(SdlPtr);
-        return ValueTask.CompletedTask;
-    }
+    public void Dispose() => SDL.DestroyTexture(SdlPtr);
 }

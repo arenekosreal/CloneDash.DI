@@ -39,5 +39,5 @@ public interface IWindow : ISdlWrapper<IntPtr>
     public string Title { get; set; }
 
     /// <summary>Show the window.</summary>
-    public ValueTask<bool> ShowAsync();
+    public bool Show();
 }

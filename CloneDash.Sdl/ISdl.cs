@@ -5,7 +5,7 @@ using SDL3;
 namespace CloneDash.Sdl;
 
 /// <summary>Api requirements for class wraps SDL operations.</summary>
-public interface ISdl : IAsyncDisposable
+public interface ISdl : IDisposable
 {
     /// <value>The window created by SDL.</value>
     public IWindow Window { get; }
@@ -28,14 +28,14 @@ public interface ISdl : IAsyncDisposable
     public Task RunUntilQuitAsync(CancellationToken token = default);
 
     /// <summary>Get <see cref="IFont" /> which family name is <paramref name="fontFamilyName" /> and matches all other arguments.</summary>
-    public ValueTask<IFont?> GetFontAsync(string fontFamilyName, int fontSize, TTF.FontStyleFlags fontStyle, TTF.HintingFlags fontHinting);
+    public IFont? GetFont(string fontFamilyName, int fontSize, TTF.FontStyleFlags fontStyle, TTF.HintingFlags fontHinting);
 
     /// <summary>Get <see cref="IFont" /> which file path is  <paramref name="fontPath" /> and matches all other arguments.</summary>
-    public ValueTask<IFont> GetFontAsync(IPath fontPath, int fontSize, TTF.FontStyleFlags fontStyle, TTF.HintingFlags fontHinting);
+    public IFont GetFont(IPath fontPath, int fontSize, TTF.FontStyleFlags fontStyle, TTF.HintingFlags fontHinting);
 
     /// <summary>Get <see cref="IAudio" /> from <paramref name="wavFile" />.</summary>
-    public ValueTask<IAudio> GetWAVAudioAsync(IPath wavFile);
+    public IAudio GetWAVAudio(IPath wavFile);
 
     /// <summary>Get <see cref="ISurface" /> from <paramref name="bmpFile" />.</summary>
-    public ValueTask<ISurface> GetBMPSurfaceAsync(IPath bmpFile);
+    public ISurface GetBMPSurface(IPath bmpFile);
 }

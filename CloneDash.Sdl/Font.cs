@@ -34,18 +34,9 @@ internal readonly struct Font : IFont
     internal Font(IPath? fontPath, IntPtr existing) =>
         (SdlPtr, Path) = (existing, fontPath);
 
-    public ValueTask DisposeAsync()
-    {
-        TTF.CloseFont(SdlPtr);
-        return ValueTask.CompletedTask;
-    }
+    public void Dispose() => TTF.CloseFont(SdlPtr);
 
-    public ValueTask<bool> AddFallbackFontAsync(IFont font) =>
-        ValueTask.FromResult(TTF.AddFallbackFont(SdlPtr, font.SdlPtr));
+    public bool AddFallbackFont(IFont font) => TTF.AddFallbackFont(SdlPtr, font.SdlPtr);
 
-    public ValueTask RemoveFallbackFontAsync(IFont font)
-    {
-        TTF.RemoveFallbackFont(SdlPtr, font.SdlPtr);
-        return ValueTask.CompletedTask;
-    }
+    public void RemoveFallbackFont(IFont font) => TTF.RemoveFallbackFont(SdlPtr, font.SdlPtr);
 }

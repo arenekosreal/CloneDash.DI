@@ -16,14 +16,14 @@ public interface IAudioStream : ISdlWrapper<IntPtr>
     public bool Locked { set; }
 
     /// <summary>Clear the stream.</summary>
-    public ValueTask<bool> ClearAsync();
+    public bool Clear();
 
     /// <summary>Flush the stream.</summary>
-    public ValueTask<bool> FlushAsync();
+    public bool Flush();
 
     /// <summary>Unbind the devices of the stream.</summary>
-    public ValueTask UnbindAsync();
+    public void Unbind();
 
     /// <summary>Put audio data to the stream.</summary>
-    public ValueTask<bool> PutAsync(IAudio audio);
+    public bool Put(IAudio audio);
 }

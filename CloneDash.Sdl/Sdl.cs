@@ -72,27 +72,27 @@ internal class Sdl : ISdl
                         break;
                 }
             }
-            await Renderer.ClearAsync();
+            Renderer.Clear();
             Renderer.DrawColor = DefaultRendererColor;
             if (CurrentRendering is not null)
-                await CurrentRendering.RenderAsync(token);
-            await Renderer.PresentAsync();
+                CurrentRendering.Render();
+            Renderer.Present();
         }
     }
 
-    public async ValueTask DisposeAsync()
+    public void Dispose()
     {
-        await AudioDevice.DisposeAsync();
-        await Renderer.DisposeAsync();
-        await Window.DisposeAsync();
+        AudioDevice.Dispose();
+        Renderer.Dispose();
+        Window.Dispose();
         foreach (Font font in Fonts)
-            await font.DisposeAsync();
+            font.Dispose();
         Fonts.Clear();
         TTF.Quit();
         SDL.Quit();
     }
 
-    public async ValueTask<IFont?> GetFontAsync(string fontFamilyName, int fontSize, TTF.FontStyleFlags fontStyle, TTF.HintingFlags fontHinting)
+    public IFont? GetFont(string fontFamilyName, int fontSize, TTF.FontStyleFlags fontStyle, TTF.HintingFlags fontHinting)
     {
         foreach (IFont font in Fonts)
         {
@@ -105,17 +105,17 @@ internal class Sdl : ISdl
         Logger.LogDebug("No font named {0} in cache was found.", fontFamilyName);
         foreach (IPath fontPath in PathProvider.EnumerateSystemFonts())
         {
-            IFont font = await GetFontAsync(fontPath, fontSize, fontStyle, fontHinting);
+            IFont font = GetFont(fontPath, fontSize, fontStyle, fontHinting);
             if (font.FamilyName == fontFamilyName)
                 return font;
             else
-                await font.DisposeAsync();
+                font.Dispose();
         }
         Logger.LogWarning("No font named {0} in system was found.", fontFamilyName);
         return null;
     }
 
-    public ValueTask<IFont> GetFontAsync(IPath fontPath, int fontSize, TTF.FontStyleFlags fontStyle, TTF.HintingFlags fontHinting)
+    public IFont GetFont(IPath fontPath, int fontSize, TTF.FontStyleFlags fontStyle, TTF.HintingFlags fontHinting)
     {
         foreach (IFont font in Fonts)
         {
@@ -123,19 +123,17 @@ internal class Sdl : ISdl
              && font.Size == fontSize
              && font.Style == fontStyle
              && font.Hinting == fontHinting)
-                return ValueTask.FromResult(font);
+                return font;
         }
         Logger.LogDebug("No font at {0} in cache was found.", fontPath);
         Font newFont = new(fontPath, fontSize);
         newFont.Style = fontStyle;
         newFont.Hinting = fontHinting;
         Fonts.Add(newFont);
-        return ValueTask.FromResult<IFont>(newFont);
+        return newFont;
     }
 
-    public ValueTask<IAudio> GetWAVAudioAsync(IPath wavFile) =>
-        ValueTask.FromResult<IAudio>(Audio.FromWAV(wavFile));
+    public IAudio GetWAVAudio(IPath wavFile) => Audio.FromWAV(wavFile);
 
-    public ValueTask<ISurface> GetBMPSurfaceAsync(IPath bmpFile) =>
-        ValueTask.FromResult<ISurface>(Surface.FromBMP(bmpFile));
+    public ISurface GetBMPSurface(IPath bmpFile) => Surface.FromBMP(bmpFile);
 }

@@ -12,13 +12,8 @@ internal readonly struct RendererTextEngine : ITextEngine
 
     internal RendererTextEngine(IntPtr existing) => SdlPtr = existing;
 
-    public ValueTask<IText> CreateTextAsync(IFont font, string text) =>
-        ValueTask.FromResult<IText>(
-            new Text(TTF.CreateText(SdlPtr, font.SdlPtr, text, Convert.ToUInt32(Encoding.UTF8.GetByteCount(text)))));
+    public IText CreateText(IFont font, string text) =>
+        new Text(TTF.CreateText(SdlPtr, font.SdlPtr, text, Convert.ToUInt32(Encoding.UTF8.GetByteCount(text))));
 
-    public ValueTask DisposeAsync()
-    {
-        TTF.DestroyRendererTextEngine(SdlPtr);
-        return ValueTask.CompletedTask;
-    }
+    public void Dispose() => TTF.DestroyRendererTextEngine(SdlPtr);
 }

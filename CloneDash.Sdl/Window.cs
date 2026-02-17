@@ -53,11 +53,7 @@ internal readonly struct Window : IWindow
 
     internal Window(IntPtr existing) => SdlPtr = existing;
 
-    public ValueTask<bool> ShowAsync() => ValueTask.FromResult(SDL.ShowWindow(SdlPtr));
+    public bool Show() => SDL.ShowWindow(SdlPtr);
 
-    public ValueTask DisposeAsync()
-    {
-        SDL.DestroyWindow(SdlPtr);
-        return ValueTask.CompletedTask;
-    }
+    public void Dispose() => SDL.DestroyWindow(SdlPtr);
 }

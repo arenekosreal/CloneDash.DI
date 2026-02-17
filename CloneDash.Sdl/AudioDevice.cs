@@ -19,18 +19,13 @@ internal readonly struct AudioDevice : IAudioDevice
     public AudioDevice(uint deviceId = SDL.AudioDeviceDefaultPlayback, SDL.AudioSpec outputSpec = default) =>
         SdlPtr = SDL.OpenAudioDevice(deviceId, outputSpec);
 
-    public ValueTask<bool> BindStreamsAsync(params IEnumerable<IAudioStream> streams)
+    public bool BindStreams(params IEnumerable<IAudioStream> streams)
     {
         IntPtr[] streamsToSdl = streams.Select(s => s.SdlPtr).ToArray();
-        return ValueTask.FromResult(SDL.BindAudioStreams(SdlPtr, streamsToSdl, streamsToSdl.Length));
+        return SDL.BindAudioStreams(SdlPtr, streamsToSdl, streamsToSdl.Length);
     }
 
-    public ValueTask<IAudioStream> OpenAudioStreamAsync(SDL.AudioSpec? inputSpec = null) =>
-        ValueTask.FromResult<IAudioStream>(new AudioStream(this, inputSpec));
+    public IAudioStream OpenAudioStream(SDL.AudioSpec? inputSpec = null) => new AudioStream(this, inputSpec);
 
-    public ValueTask DisposeAsync()
-    {
-        SDL.CloseAudioDevice(SdlPtr);
-        return ValueTask.CompletedTask;
-    }
+    public void Dispose() => SDL.CloseAudioDevice(SdlPtr);
 }

@@ -61,16 +61,10 @@ internal readonly struct Text : IText
 
     internal Text(IntPtr existing) => SdlPtr = existing;
 
-    public ValueTask DisposeAsync()
-    {
-        TTF.DestroyText(SdlPtr);
-        return ValueTask.CompletedTask;
-    }
+    public void Dispose() => TTF.DestroyText(SdlPtr);
 
-    public ValueTask<bool> RenderAsync(Vector2 position) =>
-        ValueTask.FromResult(TTF.DrawRendererText(SdlPtr, position.X, position.Y));
+    public bool Render(Vector2 position) => TTF.DrawRendererText(SdlPtr, position.X, position.Y);
 
-    /// <inheritdoc />
-    public ValueTask<bool> RenderAsync(Vector2 position, ISurface surface) =>
-        ValueTask.FromResult(TTF.DrawSurfaceText(SdlPtr, Convert.ToInt32(position.X), Convert.ToInt32(position.Y), surface.SdlPtr));
+    public bool Render(Vector2 position, ISurface surface) =>
+        TTF.DrawSurfaceText(SdlPtr, Convert.ToInt32(position.X), Convert.ToInt32(position.Y), surface.SdlPtr);
 }

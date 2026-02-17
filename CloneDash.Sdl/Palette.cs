@@ -8,9 +8,5 @@ internal readonly struct Palette : IPalette
 
     internal Palette(IntPtr existing) => SdlPtr = existing;
 
-    public ValueTask DisposeAsync()
-    {
-        SDL.DestroyPalette(SdlPtr);
-        return ValueTask.CompletedTask;
-    }
+    public void Dispose() => SDL.DestroyPalette(SdlPtr);
 }

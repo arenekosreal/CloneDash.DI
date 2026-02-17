@@ -17,46 +17,36 @@ internal readonly struct Surface : ISurface
         set => SDL.SetSurfacePalette(SdlPtr, value.SdlPtr);
     }
 
+    public Color this[Vector2 position]
+    {
+        set => SDL.WriteSurfacePixel(SdlPtr,
+                                     System.Convert.ToInt32(position.X), System.Convert.ToInt32(position.Y),
+                                     value.R, value.G, value.B, value.A);
+    }
+
     public static Surface FromBMP(IPath bmpFile) => new(SDL.LoadBMP(bmpFile.ToString()!));
 
     internal Surface(IntPtr existing) => SdlPtr = existing;
 
-    public ValueTask<bool> BlitAsync(ISurface to, Rectangle? source = null, Rectangle? destination = null)
+    public bool Blit(ISurface to, Rectangle? source = null, Rectangle? destination = null)
     {
         if (source is not null && destination is not null)
-        {
-            SDL.Rect src = source.Value.ToSdlRect(), dst = destination.Value.ToSdlRect();
-            return ValueTask.FromResult(SDL.BlitSurface(SdlPtr, in src, to.SdlPtr, in dst));
-        }
+            return SDL.BlitSurface(SdlPtr, source.Value.ToSdlRect(), to.SdlPtr, destination.Value.ToSdlRect());
         else if (source is not null)
-        {
-            SDL.Rect src = source.Value.ToSdlRect();
-            return ValueTask.FromResult(SDL.BlitSurface(SdlPtr, in src, to.SdlPtr, IntPtr.Zero));
-        }
+            return SDL.BlitSurface(SdlPtr, source.Value.ToSdlRect(), to.SdlPtr, IntPtr.Zero);
         else if (destination is not null)
-        {
-            SDL.Rect dst = destination.Value.ToSdlRect();
-            return ValueTask.FromResult(SDL.BlitSurface(SdlPtr, IntPtr.Zero, to.SdlPtr, in dst));
-        }
+            return SDL.BlitSurface(SdlPtr, IntPtr.Zero, to.SdlPtr, destination.Value.ToSdlRect());
         else
-            return ValueTask.FromResult(SDL.BlitSurface(SdlPtr, IntPtr.Zero, to.SdlPtr, IntPtr.Zero));
+            return SDL.BlitSurface(SdlPtr, IntPtr.Zero, to.SdlPtr, IntPtr.Zero);
     }
 
-    public ValueTask<bool> ClearAsync(Color color) =>
-        ValueTask.FromResult(SDL.ClearSurface(SdlPtr, color.R, color.G, color.B, color.A));
+    public bool Clear(Color color) => SDL.ClearSurface(SdlPtr, color.R, color.G, color.B, color.A);
 
-    public ValueTask<ISurface> Convert(SDL.PixelFormat format) =>
-        ValueTask.FromResult<ISurface>(new Surface(SDL.ConvertSurface(SdlPtr, format)));
+    public ISurface Convert(SDL.PixelFormat format) => new Surface(SDL.ConvertSurface(SdlPtr, format));
 
-    public ValueTask<ISurface> Rotate(float degree) =>
-        ValueTask.FromResult<ISurface>(new Surface(SDL.RotateSurface(SdlPtr, degree)));
+    public ISurface Rotate(float degree) => new Surface(SDL.RotateSurface(SdlPtr, degree));
 
-    public ValueTask<bool> Write(Vector2 position, Color color) =>
-        ValueTask.FromResult(SDL.WriteSurfacePixel(SdlPtr, System.Convert.ToInt32(position.X), System.Convert.ToInt32(position.Y), color.R, color.G, color.B, color.A));
+    public bool Write(Vector2 position, Color color) => SDL.WriteSurfacePixel(SdlPtr, System.Convert.ToInt32(position.X), System.Convert.ToInt32(position.Y), color.R, color.G, color.B, color.A);
 
-    public ValueTask DisposeAsync()
-    {
-        SDL.DestroySurface(SdlPtr);
-        return ValueTask.CompletedTask;
-    }
+    public void Dispose() => SDL.DestroySurface(SdlPtr);
 }
