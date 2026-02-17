@@ -3,7 +3,7 @@ using SDL3;
 namespace CloneDash.Sdl;
 
 /// <summary>A renderable object.</summary>
-public interface IAsyncRenderable : IDisposable
+public interface IRenderable : IDisposable
 {
     /// <summary>Render this.</summary>
     public void Render();

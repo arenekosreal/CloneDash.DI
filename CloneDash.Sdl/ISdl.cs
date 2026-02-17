@@ -20,7 +20,7 @@ public interface ISdl : IDisposable
     public IAudioDevice AudioDevice { get; }
 
     /// <value>The current rendering object.</value>
-    public IAsyncRenderable? CurrentRendering { get; set; }
+    public IRenderable? CurrentRendering { get; set; }
 
     /// <summary>Run SDL until quit.</summary>
     /// <param name="token">The <see cref="CancellationToken" /> to cancel rendering.</param>

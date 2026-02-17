@@ -23,7 +23,7 @@ internal class Sdl : ISdl
     public IRenderer Renderer { get; }
     public ITextEngine TextEngine { get; }
     public IAudioDevice AudioDevice { get; }
-    public IAsyncRenderable? CurrentRendering { get; set; }
+    public IRenderable? CurrentRendering { get; set; }
 
     public Sdl(ILogger<Sdl> logger,
                IWritableOptions<SdlConfiguration> configuration,
