@@ -1,4 +1,5 @@
 using System.Drawing;
+using System.Reflection;
 
 using CloneDash.Configuration;
 using CloneDash.Path;
@@ -111,7 +112,27 @@ internal class Sdl : ISdl
             else
                 font.Dispose();
         }
-        Logger.LogWarning("No font named {0} in system was found.", fontFamilyName);
+        Logger.LogDebug("No font named {0} in system was found.", fontFamilyName);
+        Assembly assemblyOfType = typeof(Sdl).Assembly;
+        foreach (string ttfName in assemblyOfType.GetManifestResourceNames().TakeWhile(name => name.EndsWith(".ttf")))
+        {
+            Logger.LogDebug("Checking font resource {0}", ttfName);
+            if (assemblyOfType.GetManifestResourceStream(ttfName) is Stream ttfStream)
+            {
+                Font font = new (ttfStream, fontSize);
+                Logger.LogDebug("Checking font {0} in assembly...", font.FamilyName);
+                if (font.FamilyName == fontFamilyName)
+                {
+                    font.Style = fontStyle;
+                    font.Hinting = fontHinting;
+                    Fonts.Add(font);
+                    return font;
+                }
+                else
+                    font.Dispose();
+            }
+        }
+        Logger.LogWarning("No font named {0} in embedded resources was found.", fontFamilyName);
         return null;
     }
 

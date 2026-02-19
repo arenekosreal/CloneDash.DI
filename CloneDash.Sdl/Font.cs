@@ -27,8 +27,8 @@ internal readonly struct Font : IFont
 
     public Font(Stream stream, int fontSize, IPath? fontPath = null)
     {
-        using (SDL.IOStreamOwner ioStreamOwner = SDL.IOFromStream(stream))
-            (SdlPtr, Path) = (TTF.OpenFontIO(ioStreamOwner.Handle, false, fontSize), fontPath);
+        using SDL.IOStreamOwner ioStreamOwner = SDL.IOFromStream(stream);
+        (SdlPtr, Path) = (TTF.OpenFontIO(ioStreamOwner.Handle, false, fontSize), fontPath);
     }
 
     internal Font(IPath? fontPath, IntPtr existing) =>
