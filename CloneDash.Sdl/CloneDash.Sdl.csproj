@@ -6,6 +6,69 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <NotoSansDate>2026.02.01</NotoSansDate>
+    <NotoSansCjkVersion>2.004</NotoSansCjkVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(IntermediateOutputPath)NotoSansCJK-HK.ttf">
+      <Url>https://github.com/notofonts/noto-cjk/raw/refs/tags/Sans$(NotoSansCjkVersion)/Sans/Variable/TTF/NotoSansCJKhk-VF.ttf</Url>
+      <Sha256sum>c485d72ca089ce65a83c483c1ddbf1791828b4c8e3c45ea5eae8063fe2164495</Sha256sum>
+      <WithCulture>false</WithCulture>
+      <Visible>false</Visible>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <LogicalName>NotoSansCJK-HK.ttf</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="$(IntermediateOutputPath)NotoSansCJK-JP.ttf">
+      <Url>https://github.com/notofonts/noto-cjk/raw/refs/tags/Sans$(NotoSansCjkVersion)/Sans/Variable/TTF/NotoSansCJKjp-VF.ttf</Url>
+      <Sha256sum>240c9b83bf7b386edbae39995ae7e068ed4583f484d92e4a74c34158b5f27b1a</Sha256sum>
+      <WithCulture>false</WithCulture>
+      <Visible>false</Visible>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <LogicalName>NotoSansCJK-JP.ttf</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="$(IntermediateOutputPath)NotoSansCJK-KR.ttf">
+      <Url>https://github.com/notofonts/noto-cjk/raw/refs/tags/Sans$(NotoSansCjkVersion)/Sans/Variable/TTF/NotoSansCJKkr-VF.ttf</Url>
+      <Sha256sum>7715af52f5fe77153ce5678546258993982d2da61abea8d25fb89eb5aaec5ca6</Sha256sum>
+      <WithCulture>false</WithCulture>
+      <Visible>false</Visible>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <LogicalName>NotoSansCJK-KR.ttf</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="$(IntermediateOutputPath)NotoSansCJK-SC.ttf">
+      <Url>https://github.com/notofonts/noto-cjk/raw/refs/tags/Sans$(NotoSansCjkVersion)/Sans/Variable/TTF/NotoSansCJKsc-VF.ttf</Url>
+      <Sha256sum>990c807e79c25662a5a9ecf7f971baeb2bf2eab9a559e5ecf15cdfdb8561d21f</Sha256sum>
+      <WithCulture>false</WithCulture>
+      <Visible>false</Visible>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <LogicalName>NotoSansCJK-SC.ttf</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="$(IntermediateOutputPath)NotoSansCJK-TC.ttf">
+      <Url>https://github.com/notofonts/noto-cjk/raw/refs/tags/Sans$(NotoSansCjkVersion)/Sans/Variable/TTF/NotoSansCJKtc-VF.ttf</Url>
+      <Sha256sum>6b40dd16cf1b73b5a7a0ed2472d641b60e3e85e87211abd20009f67d841425da</Sha256sum>
+      <WithCulture>false</WithCulture>
+      <Visible>false</Visible>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <LogicalName>NotoSansCJK-TC.ttf</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="$(IntermediateOutputPath)NotoSansMono.ttf">
+      <Url>https://github.com/notofonts/notofonts.github.io/raw/refs/tags/noto-monthly-release-$(NotoSansDate)/fonts/NotoSansMono/unhinted/variable/NotoSansMono%255Bwdth,wght%255D.ttf</Url>
+      <Sha256sum>8b8b934f600dbd1da306eb4018e7406a4510cccd011a686c16680bcaeacb6617</Sha256sum>
+      <WithCulture>false</WithCulture>
+      <Visible>false</Visible>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <LogicalName>NotoSansMono.ttf</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="$(IntermediateOutputPath)NotoSans.ttf">
+      <Url>https://github.com/notofonts/notofonts.github.io/raw/refs/tags/noto-monthly-release-$(NotoSansDate)/fonts/NotoSans/full/variable-ttf/NotoSans%255Bwdth,wght%255D.ttf</Url>
+      <Sha256sum>ae80a5e79e4afbf493e9f4684ec4988e6a861b3598102ee48950b4b7a754cdff</Sha256sum>
+      <WithCulture>false</WithCulture>
+      <Visible>false</Visible>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <LogicalName>NotoSans.ttf</LogicalName>
+    </EmbeddedResource>
+  </ItemGroup>
+
   <ItemGroup>
     <PackageReference Include="CsToml" Version="1.8.1" />
     <PackageReference Include="CsToml.Generator" Version="1.8.1">
@@ -27,5 +90,17 @@
     <ProjectReference Include="..\CloneDash.Configuration\CloneDash.Configuration.csproj" />
     <ProjectReference Include="..\CloneDash.Path\CloneDash.Path.csproj" />
   </ItemGroup>
+
+  <Target Name="FetchRemoteResource" BeforeTargets="PreBuildEvent" AfterTargets="Restore"
+    Inputs="@(EmbeddedResource)"
+    Outputs="%(Identity)">
+    <DownloadFile DestinationFileName="%(Filename)%(Extension)"
+      DestinationFolder="%(RelativeDir)"
+      SourceUrl="%(EmbeddedResource.Url)" SkipUnchangedFiles="true"
+      Condition="'%(EmbeddedResource.Url)' != ''"/>
+    <VerifyFileHash File="%(Identity)" Hash="%(EmbeddedResource.Sha256sum)"
+      Algorithm="SHA256" HashEncoding="hex"
+      Condition="'%(EmbeddedResource.Sha256sum)' != ''" />
+  </Target>
 
 </Project>
