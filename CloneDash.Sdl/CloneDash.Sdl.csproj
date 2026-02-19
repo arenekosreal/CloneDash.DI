@@ -91,16 +91,4 @@
     <ProjectReference Include="..\CloneDash.Path\CloneDash.Path.csproj" />
   </ItemGroup>
 
-  <Target Name="FetchRemoteResource" BeforeTargets="PreBuildEvent" AfterTargets="Restore"
-    Inputs="@(EmbeddedResource)"
-    Outputs="%(Identity)">
-    <DownloadFile DestinationFileName="%(Filename)%(Extension)"
-      DestinationFolder="%(RelativeDir)"
-      SourceUrl="%(EmbeddedResource.Url)" SkipUnchangedFiles="true"
-      Condition="'%(EmbeddedResource.Url)' != ''"/>
-    <VerifyFileHash File="%(Identity)" Hash="%(EmbeddedResource.Sha256sum)"
-      Algorithm="SHA256" HashEncoding="hex"
-      Condition="'%(EmbeddedResource.Sha256sum)' != ''" />
-  </Target>
-
 </Project>

@@ -1,0 +1,24 @@
+<Project>
+  <!-- This target fetches any <EmbeddedResource> item when it has <Url> metadata to <Include>,
+       and checks its sha256 when it has <Sha256sum> metadata.
+
+       e.g.:
+       <EmbeddedResource Include="$(IntermediateOutputPath)Example.bin">
+         <Url>https://example.com/Example.bin</Url>
+         <Sha256sum>123456789abcdefghi</Sha256sum>
+       </EmbeddedResource>
+  -->
+  <Target Name="FetchRemoteResource" BeforeTargets="PreBuildEvent" AfterTargets="Restore"
+    Inputs="@(EmbeddedResource)"
+    Outputs="%(Identity)">
+    <DownloadFile DestinationFileName="%(Filename)%(Extension)"
+      DestinationFolder="%(RelativeDir)"
+      SourceUrl="%(EmbeddedResource.Url)" SkipUnchangedFiles="true"
+      Condition="'%(EmbeddedResource.Url)' != ''" />
+    <VerifyFileHash File="%(Identity)"
+      Hash="%(EmbeddedResource.Sha256sum)"
+      Algorithm="SHA256" HashEncoding="hex"
+      Condition="'%(EmbeddedResource.Sha256sum)' != ''" />
+  </Target>
+
+</Project>
