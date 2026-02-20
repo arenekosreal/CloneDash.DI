@@ -17,8 +17,8 @@
       Condition="'%(EmbeddedResource.Url)' != ''" />
     <VerifyFileHash File="%(Identity)"
       Hash="%(EmbeddedResource.Sha256sum)"
-      Algorithm="SHA256" HashEncoding="hex"
-      Condition="'%(EmbeddedResource.Sha256sum)' != ''" />
+      Algorithm="%(EmbeddedResource.HashAlgorithm)" HashEncoding="$(EmbeddedResource.HashEncoding)"
+      Condition="'%(EmbeddedResource.Hash)' != ''" />
   </Target>
 
 </Project>
