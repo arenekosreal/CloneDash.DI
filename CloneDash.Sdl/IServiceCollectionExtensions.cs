@@ -17,7 +17,7 @@ public static class IServiceCollectionExtensions
     private const int FontSize = 24;
     private static IServiceCollection AddWellKnownFonts(this IServiceCollection services)
     {
-        services.AddKeyedTransient<IFont>(WellKnownFonts.Monospace, (provider, _) =>
+        services.AddKeyedSingleton<IFont>(WellKnownFonts.Monospace, (provider, _) =>
             provider.GetRequiredService<ISdl>().GetFont("Noto Sans Mono", FontSize,
                 TTF.FontStyleFlags.Normal, TTF.HintingFlags.Normal)
             ?? throw new NullReferenceException("Noto Sans Mono font is not found.")
@@ -42,7 +42,7 @@ public static class IServiceCollectionExtensions
             _ => "SC"
         };
         string notoSansCJK = "Noto Sans CJK " + notoCjkVariant;
-        services.AddKeyedTransient<IFont>(WellKnownFonts.SansSerif, (provider, _) =>
+        services.AddKeyedSingleton<IFont>(WellKnownFonts.SansSerif, (provider, _) =>
             provider.GetRequiredService<ISdl>().GetFont(notoSansCJK, FontSize,
                 TTF.FontStyleFlags.Normal, TTF.HintingFlags.Normal)
             ?? throw new NullReferenceException(notoSansCJK + " font is not found."));
