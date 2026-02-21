@@ -30,7 +30,7 @@ public interface IText : ISdlWrapper<IntPtr>
     public uint Script { get; set; }
 
     /// <value>The size of the text.</value>
-    public Vector2 Size { get; }
+    public Size Size { get; }
 
     /// <value>The wrap width of the text.</value>
     public int WrapWidth { get; set; }

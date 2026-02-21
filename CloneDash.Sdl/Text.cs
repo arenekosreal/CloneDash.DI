@@ -43,7 +43,7 @@ internal readonly struct Text : IText
 
     public uint Script { get => TTF.GetTextScript(SdlPtr); set => TTF.SetTextScript(SdlPtr, value); }
 
-    public Vector2 Size
+    public Size Size
     {
         get => TTF.GetTextSize(SdlPtr, out int w, out int h) ? new(w, h) : default;
     }
