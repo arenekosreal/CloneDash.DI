@@ -86,9 +86,6 @@ internal class Sdl : ISdl
         AudioDevice.Dispose();
         Renderer.Dispose();
         Window.Dispose();
-        foreach (Font font in Fonts)
-            font.Dispose();
-        Fonts.Clear();
         TTF.Quit();
         SDL.Quit();
     }
@@ -119,7 +116,7 @@ internal class Sdl : ISdl
             Logger.LogDebug("Checking font resource {0}", ttfName);
             if (assemblyOfType.GetManifestResourceStream(ttfName) is Stream ttfStream)
             {
-                Font font = new (ttfStream, fontSize);
+                Font font = new(ttfStream, fontSize);
                 Logger.LogDebug("Checking font {0} in assembly...", font.FamilyName);
                 if (font.FamilyName == fontFamilyName)
                 {
