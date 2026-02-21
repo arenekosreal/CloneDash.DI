@@ -38,5 +38,7 @@ internal readonly struct Font : IFont
 
     public bool AddFallbackFont(IFont font) => TTF.AddFallbackFont(SdlPtr, font.SdlPtr);
 
+    public IFont Copy() => new Font(Path, TTF.CopyFont(SdlPtr));
+
     public void RemoveFallbackFont(IFont font) => TTF.RemoveFallbackFont(SdlPtr, font.SdlPtr);
 }

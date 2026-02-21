@@ -32,6 +32,9 @@ public interface IFont : ISdlWrapper<IntPtr>
     /// <summary>Add fonts to fallback list.</summary>
     public bool AddFallbackFont(IFont font);
 
+    /// <summary>Copy the font.</summary>
+    public IFont Copy();
+
     /// <summary>Remove fonts from fallback list.</summary>
     public void RemoveFallbackFont(IFont font);
 }
