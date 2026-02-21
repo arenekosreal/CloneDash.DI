@@ -22,6 +22,18 @@ public interface ISdl : IDisposable
     /// <value>The current rendering object.</value>
     public IRenderable? CurrentRendering { get; set; }
 
+    /// <value>If mouse is connected.</value>
+    public bool HasMouse { get; }
+
+    /// <value>If gamepad is connected.</value>
+    public bool HasGamepad { get; }
+
+    /// <value>If joystick is connected.</value>
+    public bool HasJoystick { get; }
+
+    /// <value>If keyboard is connected.</value>
+    public bool HasKeyboard { get; }
+
     /// <summary>Run SDL until quit.</summary>
     /// <param name="token">The <see cref="CancellationToken" /> to cancel rendering.</param>
     /// <remarks>Run this method in main thread.</remarks>

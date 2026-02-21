@@ -25,6 +25,10 @@ internal class Sdl : ISdl
     public ITextEngine TextEngine { get; }
     public IAudioDevice AudioDevice { get; }
     public IRenderable? CurrentRendering { get; set; }
+    public bool HasMouse { get => SDL.HasMouse(); }
+    public bool HasGamepad { get => SDL.HasGamepad(); }
+    public bool HasJoystick { get => SDL.HasJoystick(); }
+    public bool HasKeyboard { get => SDL.HasKeyboard(); }
 
     public Sdl(ILogger<Sdl> logger,
                IWritableOptions<SdlConfiguration> configuration,
