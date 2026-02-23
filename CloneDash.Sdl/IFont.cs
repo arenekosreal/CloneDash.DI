@@ -1,8 +1,8 @@
+using System.Drawing;
+
 using PathLib;
 
 using SDL3;
-
-using System.Drawing;
 
 namespace CloneDash.Sdl;
 
