@@ -2,6 +2,8 @@ using PathLib;
 
 using SDL3;
 
+using System.Drawing;
+
 namespace CloneDash.Sdl;
 
 internal readonly struct Font : IFont
@@ -41,4 +43,18 @@ internal readonly struct Font : IFont
     public IFont Copy() => new Font(Path, TTF.CopyFont(SdlPtr));
 
     public void RemoveFallbackFont(IFont font) => TTF.RemoveFallbackFont(SdlPtr, font.SdlPtr);
+
+    public bool GetStringSize(string text, out Size size)
+    {
+        bool ret = TTF.GetStringSize(SdlPtr, text, 0, out int width, out int height);
+        size = new (width, height);
+        return ret;
+    }
+
+    public bool GetStringSize(string text, int wrapWidth, out Size size)
+    {
+        bool ret = TTF.GetStringSizeWrapped(SdlPtr, text, 0, wrapWidth, out int width, out int height);
+        size = new (width, height);
+        return ret;
+    }
 }

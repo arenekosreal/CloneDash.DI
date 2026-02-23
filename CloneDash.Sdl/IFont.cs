@@ -2,6 +2,8 @@ using PathLib;
 
 using SDL3;
 
+using System.Drawing;
+
 namespace CloneDash.Sdl;
 
 /// <summary>Wrapper of <see href="https://wiki.libsdl.org/SDL3_ttf/TTF_Font" />.</summary>
@@ -37,4 +39,10 @@ public interface IFont : ISdlWrapper<IntPtr>
 
     /// <summary>Remove fonts from fallback list.</summary>
     public void RemoveFallbackFont(IFont font);
+
+    /// <summary>Get string size when rendering with the font.</summary>
+    public bool GetStringSize(string text, out Size size);
+
+    /// <summary>Get wrapped string size when rendering with the font.</summary>
+    public bool GetStringSize(string text, int wrapWidth, out Size size);
 }
