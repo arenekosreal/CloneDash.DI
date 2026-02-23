@@ -10,8 +10,8 @@ internal readonly struct RendererTextEngine : ITextEngine
 
     internal RendererTextEngine(IntPtr existing) => SdlPtr = existing;
 
-    public IText CreateText(IFont font, string text) =>
-        new Text(TTF.CreateText(SdlPtr, font.SdlPtr, text, 0));
+    public IText CreateText(IFont font, string text, uint length = 0) =>
+        new Text(TTF.CreateText(SdlPtr, font.SdlPtr, text, length));
 
     public void Dispose() => TTF.DestroyRendererTextEngine(SdlPtr);
 }
