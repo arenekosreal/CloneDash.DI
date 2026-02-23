@@ -1,5 +1,3 @@
-using System.Text;
-
 using SDL3;
 
 namespace CloneDash.Sdl;
@@ -13,7 +11,7 @@ internal readonly struct RendererTextEngine : ITextEngine
     internal RendererTextEngine(IntPtr existing) => SdlPtr = existing;
 
     public IText CreateText(IFont font, string text) =>
-        new Text(TTF.CreateText(SdlPtr, font.SdlPtr, text, Convert.ToUInt32(Encoding.UTF8.GetByteCount(text))));
+        new Text(TTF.CreateText(SdlPtr, font.SdlPtr, text, 0));
 
     public void Dispose() => TTF.DestroyRendererTextEngine(SdlPtr);
 }

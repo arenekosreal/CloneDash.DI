@@ -54,11 +54,6 @@ internal readonly struct Text : IText
         set => TTF.SetTextWrapWidth(SdlPtr, value);
     }
 
-    public Text(string text, IFont font, ITextEngine? textEngine = null)
-    {
-        SdlPtr = TTF.CreateText(textEngine?.SdlPtr ?? IntPtr.Zero, font.SdlPtr, text, (uint)Encoding.UTF8.GetByteCount(text));
-    }
-
     internal Text(IntPtr existing) => SdlPtr = existing;
 
     public void Dispose() => TTF.DestroyText(SdlPtr);
