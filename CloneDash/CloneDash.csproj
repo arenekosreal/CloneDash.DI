@@ -10,6 +10,7 @@
   <PropertyGroup>
     <ApplicationId Condition="'$(Company)' != ''">io.github.$(Company).$(AssemblyName)</ApplicationId>
     <ApplicationId Condition="'$(Company)' == ''">io.github.$(AssemblyName).$(AssemblyName)</ApplicationId>
+    <RunWorkingDirectory Condition="'$(RunWorkingDirectory)' == '' and '$(EnableDefaultRunWorkingDirectory)' != 'false'">$(MSBuildProjectDirectory)</RunWorkingDirectory>
   </PropertyGroup>
 
   <ItemGroup>
