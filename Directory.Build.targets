@@ -1,11 +1,12 @@
 <Project>
   <!-- This target fetches any <EmbeddedResource> item when it has <Url> metadata to <Include>,
-       and checks its sha256 when it has <Sha256sum> metadata.
+       and checks its hash when it has <Hash> metadata.
 
        e.g.:
        <EmbeddedResource Include="$(IntermediateOutputPath)Example.bin">
          <Url>https://example.com/Example.bin</Url>
-         <Sha256sum>123456789abcdefghi</Sha256sum>
+         <Hash>123456789abcdefghi</Hash>
+         <HashAlgorithm>Sha256</HashAlgorithm>
        </EmbeddedResource>
   -->
   <Target Name="FetchRemoteResource" BeforeTargets="PreBuildEvent" AfterTargets="Restore"
