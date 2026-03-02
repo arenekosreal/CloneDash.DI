@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.Globalization;
+using System.Reflection;
 
 using CloneDash;
 using CloneDash.Configuration;
@@ -72,6 +73,11 @@ await host.StartAsync();
 // [STAThread] attribute on Main
 if (OperatingSystem.IsWindows())
     Thread.CurrentThread.SetApartmentState(ApartmentState.STA);
+ILogger<Program> logger = host.Services.GetRequiredService<ILogger<Program>>();
+logger.LogDebug("Current ui culture: {0} [{1}] with LCID 0x{2:x4}",
+    CultureInfo.CurrentUICulture.NativeName,
+    CultureInfo.CurrentUICulture.Name,
+    CultureInfo.CurrentUICulture.LCID);
 ISdl sdl = host.Services.GetRequiredService<ISdl>();
 if (sdl.CurrentRendering is null)
     sdl.CurrentRendering = host.Services.GetRequiredService<IMainScene>();
