@@ -28,7 +28,7 @@ public static class IServiceCollectionExtensions
         string notoCjkVariant = CultureInfo.CurrentUICulture.LCID switch
         {
             // See also:
-            // https://learn.microsoft.com/zh-cn/openspecs/windows_protocols/ms-lcid/a9eac961-e77d-41a6-90a5-ce1a8b0cdb9c
+            // https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-lcid/a9eac961-e77d-41a6-90a5-ce1a8b0cdb9c
             0x0004 => "SC", // zh-Hans >= Windows NT 3.51
             0x7804 => "SC", // zh      >= Windows 7
             0x0804 => "SC", // zh-CN   >= Windows NT 3.51
