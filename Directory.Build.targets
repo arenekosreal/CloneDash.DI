@@ -7,6 +7,7 @@
          <Url>https://example.com/Example.bin</Url>
          <Hash>123456789abcdefghi</Hash>
          <HashAlgorithm>Sha256</HashAlgorithm>
+         <HashEncoding>hex</HashEncoding>
        </EmbeddedResource>
   -->
   <Target Name="FetchRemoteResource" BeforeTargets="PreBuildEvent" AfterTargets="Restore"
@@ -17,8 +18,8 @@
       SourceUrl="%(EmbeddedResource.Url)" SkipUnchangedFiles="true"
       Condition="'%(EmbeddedResource.Url)' != ''" />
     <VerifyFileHash File="%(Identity)"
-      Hash="%(EmbeddedResource.Sha256sum)"
-      Algorithm="%(EmbeddedResource.HashAlgorithm)" HashEncoding="$(EmbeddedResource.HashEncoding)"
+      Hash="%(EmbeddedResource.Hash)"
+      Algorithm="%(EmbeddedResource.HashAlgorithm)" HashEncoding="%(EmbeddedResource.HashEncoding)"
       Condition="'%(EmbeddedResource.Hash)' != ''" />
   </Target>
 
