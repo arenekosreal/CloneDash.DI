@@ -21,4 +21,8 @@
     <DebugSymbols>true</DebugSymbols>
     <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
   </PropertyGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="$(MSBuildProjectName).Tests" Condition="'$(IsTestProject)' != 'true'"></InternalsVisibleTo>
+  </ItemGroup>
 </Project>
