@@ -43,6 +43,11 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
 You should have received a copy of the GNU General Public License along with this program. If not, see <https://www.gnu.org/licenses/>.
 ```
 
+The embedded fonts are licensed under `OFL-1.1` license:
+
+- Noto Sans CJK:  https://github.com/notofonts/noto-cjk/blob/main/Sans/LICENSE
+- Noto Sans Mono: https://github.com/notofonts/notofonts.github.io/blob/main/fonts/LICENSE
+
 ## Development
 
 <details>
