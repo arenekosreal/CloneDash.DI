@@ -69,7 +69,7 @@ jobs:
             './CloneDash/io.github.CloneDash.CloneDash.svg'
       - name: Upload artifact
         if: github.ref_type == 'tag'
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: CloneDash-${{ runner.os }}-${{ runner.arch }}
           path: ./CloneDash-${{ github.ref_name }}-${{ runner.os }}-${{ runner.arch }}.zip
