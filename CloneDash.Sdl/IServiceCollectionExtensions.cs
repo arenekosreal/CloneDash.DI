@@ -29,19 +29,19 @@ public static class IServiceCollectionExtensions
         {
             // See also:
             // https://learn.microsoft.com/zh-cn/openspecs/windows_protocols/ms-lcid/a9eac961-e77d-41a6-90a5-ce1a8b0cdb9c
-            0x0004 => "SC", // Chinese (Simplified)
-            0x7804 => "SC", // Chinese (Simplified)
-            0x0804 => "SC", // Chinese (Simplified) PRC
-            0x1004 => "SC", // Chinese (Simplified) Sinapore
-            0x7c04 => "TC", // Chinese (Traditional)
-            0x0c04 => "HK", // Chinese (Traditional) Hong Kong
-            0x1404 => "TC", // Chinese (Traditional) Macao
-            0x0404 => "TC", // Chinese (Traditional) Taiwan
-            0x0011 => "JP", // Japanese
-            0x0411 => "JP", // Japanese Japan
-            0x0012 => "KR", // Korean
-            0x0412 => "KR", // Korean Korea
-            0x1000 => "KR", // Korean North Korea
+            0x0004 => "SC", // zh-Hans >= Windows NT 3.51
+            0x7804 => "SC", // zh      >= Windows 7
+            0x0804 => "SC", // zh-CN   >= Windows NT 3.51
+            0x1004 => "SC", // zh-SG   >= Windows NT 3.51
+            0x7c04 => "TC", // zh-Hant >= Windows NT 3.51
+            0x0c04 => "HK", // zh-HK   >= Windows NT 3.51
+            0x1404 => "TC", // zh-MO   >= Windows XP
+            0x0404 => "TC", // zh-TW   >= Windows NT 3.51
+            0x0011 => "JP", // ja      >= Windows 7
+            0x0411 => "JP", // ja-JP   >= Windows NT 3.51
+            0x0012 => "KR", // ko      >= Windows 7
+            0x0412 => "KR", // ko-KR   >= Windows NT 3.51
+            0x1000 => "KR", // ko-KP   >= Windows 10 1607
             _ => "SC"
         };
         string notoSansCJK = $"Noto Sans CJK {notoCjkVariant}";
