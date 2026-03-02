@@ -44,8 +44,8 @@ public static class IServiceCollectionExtensions
             0x1000 => "KR", // Korean North Korea
             _ => "SC"
         };
-        string notoSansCJK = "Noto Sans CJK " + notoCjkVariant;
-        services.AddKeyedSingleton<IFont>(WellKnownFonts.SansSerif, (provider, _) =>
+        string notoSansCJK = $"Noto Sans CJK {notoCjkVariant}";
+        services.AddKeyedTransient<IFont>(WellKnownFonts.SansSerif, (provider, _) =>
         {
             IFont? font = provider.GetRequiredService<ISdl>().GetFont(notoSansCJK, FontSize,
                 TTF.FontStyleFlags.Normal, TTF.HintingFlags.Normal);
