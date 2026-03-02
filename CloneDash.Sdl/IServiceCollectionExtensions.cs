@@ -17,11 +17,14 @@ public static class IServiceCollectionExtensions
     private const int FontSize = 24;
     private static IServiceCollection AddWellKnownFonts(this IServiceCollection services)
     {
-        services.AddKeyedSingleton<IFont>(WellKnownFonts.Monospace, (provider, _) =>
-            provider.GetRequiredService<ISdl>().GetFont("Noto Sans Mono", FontSize,
-                TTF.FontStyleFlags.Normal, TTF.HintingFlags.Normal)
-            ?? throw new NullReferenceException("Noto Sans Mono font is not found.")
-        );
+        services.AddKeyedTransient<IFont>(WellKnownFonts.Monospace, (provider, _) =>
+        {
+            IFont? font = provider.GetRequiredService<ISdl>().GetFont("Noto Sans Mono", FontSize,
+                TTF.FontStyleFlags.Normal, TTF.HintingFlags.Normal);
+            if (font is null)
+                throw new NullReferenceException("Noto Sans Mono font is not found.");
+            return font.Copy();
+        });
         string notoCjkVariant = CultureInfo.CurrentUICulture.LCID switch
         {
             // See also:
@@ -43,9 +46,13 @@ public static class IServiceCollectionExtensions
         };
         string notoSansCJK = "Noto Sans CJK " + notoCjkVariant;
         services.AddKeyedSingleton<IFont>(WellKnownFonts.SansSerif, (provider, _) =>
-            provider.GetRequiredService<ISdl>().GetFont(notoSansCJK, FontSize,
-                TTF.FontStyleFlags.Normal, TTF.HintingFlags.Normal)
-            ?? throw new NullReferenceException(notoSansCJK + " font is not found."));
+        {
+            IFont? font = provider.GetRequiredService<ISdl>().GetFont(notoSansCJK, FontSize,
+                TTF.FontStyleFlags.Normal, TTF.HintingFlags.Normal);
+            if (font is null)
+                throw new NullReferenceException(notoSansCJK + " font is not found.");
+            return font.Copy();
+        });
         return services;
     }
 
