@@ -5,5 +5,9 @@ namespace CloneDash;
 internal static class IServiceCollectionExtensions
 {
     public static IServiceCollection AddMainScene(this IServiceCollection services) =>
-        services.AddSingleton<IMainScene, MainScene>();
+        services.AddTransient<IMainScene, MainScene>();
+
+    public static IServiceCollection AddKanban(this IServiceCollection services) =>
+        services.AddTransient<IKanban, Kanban>();
+
 }

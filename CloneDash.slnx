@@ -3,6 +3,7 @@
   <Project Path="CloneDash.Generator/CloneDash.Generator.csproj" />
   <Project Path="CloneDash.Logging/CloneDash.Logging.csproj" />
   <Project Path="CloneDash.MuseDash/CloneDash.MuseDash.csproj" />
+  <Project Path="CloneDash.Sdk/CloneDash.Sdk.csproj" />
   <Project Path="CloneDash.Sdl/CloneDash.Sdl.csproj" />
   <Project Path="CloneDash/CloneDash.csproj" />
 </Solution>

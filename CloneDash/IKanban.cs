@@ -2,5 +2,5 @@ using CloneDash.Sdl;
 
 namespace CloneDash;
 
-internal interface IMainScene : IRenderable
+internal interface IKanban : IRenderable
 { }

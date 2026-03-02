@@ -63,6 +63,7 @@ builder.Services.AddPathProvider(pathProvider);
 builder.Services.AddConfigurationWriter(writableConfigFileStream);
 builder.Services.AddSdl(builder.Configuration, assemblyTitle, assemblyVersion, appId);
 builder.Services.AddMainScene();
+builder.Services.AddKanban();
 
 using IHost host = builder.Build();
 
