@@ -59,14 +59,6 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <LogicalName>NotoSansMono.ttf</LogicalName>
     </EmbeddedResource>
-    <EmbeddedResource Include="$(IntermediateOutputPath)NotoSans.ttf">
-      <Url>https://github.com/notofonts/notofonts.github.io/raw/refs/tags/noto-monthly-release-$(NotoSansDate)/fonts/NotoSans/full/variable-ttf/NotoSans%255Bwdth,wght%255D.ttf</Url>
-      <Hash>ae80a5e79e4afbf493e9f4684ec4988e6a861b3598102ee48950b4b7a754cdff</Hash>
-      <WithCulture>false</WithCulture>
-      <Visible>false</Visible>
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-      <LogicalName>NotoSans.ttf</LogicalName>
-    </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>
